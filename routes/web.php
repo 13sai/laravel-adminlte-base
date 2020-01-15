@@ -12,16 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return "saiblog";
 });
+
+// Route::get('/test', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::any('/home', 'HomeController@index')->name('home');
 
 Route::get('/test', 'HomeController@test')->name('test');
 
-Route::namespace('Admin')->middleware(['auth'])->prefix('admin')->group(function () {
+Route::namespace('Admin')->middleware(['auth', 'rbac'])->prefix('admin')->group(function () {
     Route::get('/', 'IndexController@index')->name('admin');
 
     Route::get('/users', 'UserController@index')->name('admin/users');

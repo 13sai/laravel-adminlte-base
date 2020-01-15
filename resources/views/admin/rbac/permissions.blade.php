@@ -3,7 +3,7 @@
 @section('title', 'saiblog')
 
 @section('content_header')
-    <h1>权限</h1>
+    <h1>规则</h1>
 @stop
 
 @section('content')
