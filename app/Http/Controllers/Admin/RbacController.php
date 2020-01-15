@@ -44,7 +44,7 @@ class RbacController extends AdminBaseController
     }
 
     /**
-     * 权限分配
+     * 权限规则
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Swoft\Http\Message\Response
      */
@@ -111,23 +111,40 @@ class RbacController extends AdminBaseController
         }
         if ($request->method() == 'POST') {
             $permissionList = $request->input('permission');
+            $accessStr = $request->input('accessStr');
+            $accessList = explode('|', $accessStr);
+
+            $delArray = array_diff($accessList, $permissionList);
+            $addArray = array_diff($accessList, $permissionList);
+
             $data = [];
-            if (empty($permissionList)) {
-                RolePermission::where('role_id', $roleId)->delete();
-                return redirect('/admin/roles');
+
+            !empty($delArray) && RolePermission::where('role_id', $roleId)
+            ->whereIn('permission_id', $delArray)
+            ->delete();
+
+            if (!empty($addArray)) {
+                foreach ($addArray as $permissionId) {
+                    $data[] = [
+                        'role_id' => $roleId,
+                        'permission_id' => $permissionId
+                    ];
+                }
+                RolePermission::insert($data);
             }
-            foreach ($permissionList as $permissionId) {
-                $data[] = [
-                    'role_id' => $roleId,
-                    'permission_id' => $permissionId
-                ];
-            }
-            RolePermission::insert($data);
+            
             return redirect('/admin/roles');
         }
         $accessList = RolePermission::where('role_id', $roleId)->pluck('permission_id')->toArray();
+        $accessStr = '';
+        !empty($accessList) && $accessStr = implode('|', $accessList);
         $permissionList = Permission::all();
         // dd($accessList);
-        return $this->AdminView('rbac/access', ['accessList' => $accessList, 'permissionList' => $permissionList, 'roleId' => $roleId]);
+        return $this->AdminView('rbac/access', [
+            'accessList' => $accessList, 
+            'accessStr' => $accessStr, 
+            'permissionList' => $permissionList, 
+            'roleId' => $roleId
+        ]);
     }
 }

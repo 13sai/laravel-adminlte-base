@@ -14,6 +14,9 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         //
+        PageException::class,
+        ApiException::class,
+
     ];
 
     /**
