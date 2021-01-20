@@ -1,5 +1,6 @@
 <?php
 /**
+ * author: 13sai
  * RBAC验证
  */
 
@@ -17,7 +18,7 @@ class Rbac
     public function handle($request, Closure $next, $guard = null)
     {
         if (!$this->_checkAuth($request)) {
-            return view('home');
+            return response()->view('errors/exception', ['message'=> '您无权访问！']);
         }
 
         return $next($request);

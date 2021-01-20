@@ -128,10 +128,10 @@ return [
     */
 
     'menu' => [
-        [
-            'text' => 'search',
-            'search' => true,
-        ],
+        // [
+        //     'text' => 'search',
+        //     'search' => true,
+        // ],
 //        ['header' => 'main_navigation'],
 //        [
 //            'text' => 'blog',
@@ -160,7 +160,7 @@ return [
                     'url'  => '/admin/roles',
                 ],
                 [
-                    'text' => '权限',
+                    'text' => '规则',
                     'url'  => '/admin/permissions',
                 ],
                 [

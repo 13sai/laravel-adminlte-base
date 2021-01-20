@@ -3,7 +3,7 @@
 @section('title', 'saiblog')
 
 @section('content_header')
-    <h1>角色</h1>
+    <h1>权限</h1>
 @stop
 
 @section('content')
@@ -13,6 +13,7 @@
         </div>
         <form role="form" method="post">
             <input type="hidden" name="role_id" value="{{$roleId}}">
+            <input type="hidden" name="accessStr" value="{{$accessStr}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
             <div class="box-body">
                 @foreach ($permissionList as $permission)
